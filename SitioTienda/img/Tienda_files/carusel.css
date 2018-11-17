@@ -1,0 +1,36 @@
+﻿.espaciado {
+    margin-bottom: 20px;
+    margin-top: 20px;
+    background-color: orange !important;
+}
+
+card-img-top {
+    
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#stock {
+    text-align:left;
+}
+
+.container img {
+    width: 100% !important;
+    height: 200px !important;
+    padding-top: 10px !important;
+    border-radius: 25px !important;
+}
+
+.borde {
+    margin-bottom: 10px;
+}
+
+
+
+.btn-primary {
+    color: #000000 !important;
+}
+
+#es {
+    margin-top: 1px;
+}

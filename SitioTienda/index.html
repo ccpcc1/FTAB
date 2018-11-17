@@ -1,0 +1,206 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Tienda</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="css/carusel.css" rel="stylesheet" />
+    <script src="js/jquery-3.3.1.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            console.log("document loaded");
+
+
+            if ($("#consulta option:selected").attr("value") == 0) {
+
+                GetAll();
+            }
+
+            //Filtros
+            $(document).on('change', '#consulta', function (event) {
+
+                if ($("#consulta option:selected").attr("value") == 0) {
+
+                    GetAll();
+
+                } else {
+
+                    Clear();
+
+                    var x = $("#consulta option:selected").attr("value");
+
+                    //Empieza switch
+                    switch (x) {
+                        case '1':
+                            GetByCategory(1);
+                            break;
+                        case '4':
+                            GetyCategory(4);
+                            break;
+                        case '5':
+                            GetByCategory(5);
+                            break;
+                        case '9':
+                            GetByCategory(9);
+                            break;
+                        default:
+                          
+                    }
+                    //Termina switch
+
+                }
+                
+
+            });
+
+            //Boton ver mas
+            $("#Vermas").click(function () {
+                alert("Handler for .click() called.");
+
+            });
+
+
+
+        });
+
+        //Obtener todos los prodcutos
+        function GetAll() {
+
+            $.getJSON('/api/Productos', function (data) {
+
+                $.each(data, function (key, value) {
+
+                    $("#tienda").append(" \
+                                        <div id='Producto' class='col-lg-3 col-md-4 col-sm-6 .col-12 card  espaciado  offset-md-1' style='width: 18rem;'> \
+                                        <img class= 'card-img-top rounded' src = "+ value.img + " >\
+                                        <div class='card-body'>\
+                                            <h5 class='card-title' align='center'>"+ value.nombreProducto.toUpperCase() + "</h5>\
+                                            <p class='card - text' align='center'>\
+                                                "+ value.Precio + " $" + "\
+                                            </p>\
+                                            <p id='stock' class='card - text' align='center'>\
+                                                 "+ "En Stock " + value.stock + " Unds" + "\
+                                            </p>\
+                                            <div class='text-center'>\
+                                                 <button id='Vermas'>Ver mas</button>\
+                                                <button style='color: whitesmoke!important' type='button' class='btn btn-primary bg-info borde ' id='AnnadirCarrito'>Agregar al carrito</button>\
+                                                <button style='color: whitesmoke!important' type='button' class='btn btn-primary bg-info borde ' id='AnnadirFavoritos'>Agregar Favoritos</button>\
+                                            </div>\
+                                        </div>\
+                                        </div >");
+
+                });
+
+            });
+        };
+
+        //Obtener por categoria
+        function GetByCategory(idCategoria) {
+            console.log("Obtuve categoria");
+            $.getJSON('/api/Productos/' + idCategoria , function (data) {
+              
+                $.each(data, function (key, value) {
+                   
+                    $("#tienda").append(" \
+                                        <div id='Producto' class='col-lg-3 col-md-4 col-sm-6 .col-12 card  espaciado  offset-md-1' style='width: 18rem;'> \
+                                        <img class= 'card-img-top rounded' src = "+ value.img + " >\
+                                        <div class='card-body'>\
+                                            <h5 class='card-title' align='center'>"+ value.nombreProducto.toUpperCase() + "</h5>\
+                                            <p class='card - text' align='center'>\
+                                                "+ value.Precio + " $" + "\
+                                            </p>\
+                                            <p id='stock' class='card - text' align='center'>\
+                                                 "+ "En Stock " + value.stock + " Unds" + "\
+                                            </p>\
+                                            <div class='text-center'>\
+                                                 <button id='Vermas'>Ver mas</button>\
+                                                <button style='color: whitesmoke!important' type='button' class='btn btn-primary bg-info borde ' id='AnnadirCarrito'>Agregar al carrito</button>\
+                                                <button style='color: whitesmoke!important' type='button' class='btn btn-primary bg-info borde ' id='AnnadirFavoritos'>Agregar Favoritos</button>\
+                                            </div>\
+                                        </div>\
+                                        </div >");
+
+                });
+
+            });
+        };
+
+        //Limpias los prodcutos que hay cargados
+        function Clear() {
+
+            $("#tienda").empty();
+
+        };
+
+
+
+    </script>
+
+</head>
+<body>
+    <div class="container">
+        <div id="menu">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <a class="navbar-brand" href="index.html">Tienda</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="Carrito.html">Mi Carrito</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="ListaFavoritos.html">Mis Favoritos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="facturas.html">Facturas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " href="DetalleFactura.html">Detalle Facturas</a>
+                        </li>
+                    </ul>
+
+                </div>
+            </nav>
+        </div>
+        <br />
+        <div class="buscar">
+            <input />
+            <select id="consulta" name="consulta">
+                <option value="0">Filtrar por</option>
+                <option value="1">Camisas</option>
+                <option value="4">Zapatos</option>
+                <option value="5">Accesorios</option>
+                <option value="9">Jeans</option>
+            </select>
+        </div>
+
+        <br />
+
+        <!-- Caja para mostrar un producto -->
+        <div class="row container" id="tienda">
+            <!--<div id="Producto" class="col-lg-3 col-md-4 col-sm-6 .col-12 card  espaciado  offset-md-1" style="width: 18rem;">
+                <img class="card-img-top rounded" src="img/4.jpg">
+                <div class="card-body">
+                    <h5 class="card-title">Nombre producto</h5>
+                    <p class='card - text' align="center">
+                        $ 15.500
+                    </p>
+
+                    <div class="text-center">
+                        <button style="color:whitesmoke!important" type="button" class="btn btn-primary bg-info borde " id="Vermas">Ver mas</button>
+                        <button type="button" class="btn btn-primary bg-info borde " id="AnnadirCarrito">Agregar al carrito</button>
+                        <button type="button" class="btn btn-primary  bg-info borde " id="AnnadirFavoritos">Agregar Favoritos</button>
+
+                    </div>
+                </div>
+            </div>-->
+        </div>
+
+    </div>
+
+</body>
+</html>
