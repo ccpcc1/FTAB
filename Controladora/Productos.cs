@@ -62,10 +62,10 @@ namespace Controladora
             return productos;
         }
 
-        public EN.Producto GetProducto(int id)
+        public EN.Producto GetProducto(int id,bool value)
         {
             EN.Producto p = new EN.Producto();
-            BR.Productos other = db.Productos.Where(x => x.idProducto == id).FirstOrDefault() ;
+            BR.Productos other = db.Productos.Where(x => x.idProducto == id).FirstOrDefault();
 
             p.Categoria = other.Categoria.nombreCat;
             p.idCategoria = other.idCategoria;

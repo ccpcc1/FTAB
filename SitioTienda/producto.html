@@ -15,15 +15,15 @@
             var paramstr = window.location.search.substr(1);
             //var indice = paramstr.length - 1;
             //Console.log(paramstr[indice]);
-            
-           
+
+
             var paramarr = paramstr.split("&");
             var params = {};
 
             for (var i = 0; i < paramarr.length; i++) {
                 var tmparr = paramarr[i].split("=");
                 params[tmparr[0]] = tmparr[1];
-                console.log("" + params );
+                console.log("" + params);
             }
 
             if (params['idProducto']) {
@@ -31,21 +31,29 @@
             } else {
                 console.log('No se envió el parámetro variable');
             }
-            
+
+            GetProduct(params['idProducto'], true);
+
 
         });
+       
+        //Obtener prodcuto por id
+        ///api/Productos ? id = 1 & value=true
+        function GetProduct(id, value) {
 
-        /Obtener todos los prodcutos
+            $.getJSON('/api/Productos?id=' + id + '&value=' + value, function (data) {
 
-        function GetAll(id, value) {
+                //console.log(data.nombreProducto);
+                $("#producto").append(" \
+                        <div class='text - center'>\
+                        <img  class= 'img-fluid rounded offset-md-1' src = "+ data.img + " >\
+                        <h5 id='cantidad' class='text - center'>Cantidad disponible:"+ data.stock + " </h5>\
+                        <h5 id='precio' class='text - center'>Precio:"+ data.Precio +" $"+"</h5>\
+                        <h5 id='categoria' class='text - center'>Categoria:"+ data.Categoria.toUpperCase() + "</h5>\
+                        <h5 id='calificacion' class='text - center'>calificacion: falta</h5>\
+                    </div >\
+                ");
 
-            $.getJSON('/api/Productos' + id + "&" + value, function (data) {
-
-                $.each(data, function (key, value) {
-
-                    $("#tienda").append("");
-
-                });
 
             });
         };
@@ -82,23 +90,27 @@
         </nav>
     </div>
 
+    <div class="row">
+        <div class="col-4"></div>
+        <div id="producto" class="col-4">
+        <div class="col-4"></div>
 
+    </div>
 
-    <div id="producto">
-        <div class="text-center">
-            <img src="..." class="img-fluid rounded" alt="Responsive image">
-            <h5 id="cantidad">Cantidad disponible:</h5>
-            <h5 id="precio">Precio:</h5>
-            <h5 id="categoria">Categoria:</h5>
-            <h5 id="calificacion">calificacion:</h5>
-        </div>
+        <!--<div class="text-center">
+        <img src="..." class="img-fluid rounded" alt="Responsive image">
+        <h5 id="cantidad">Cantidad disponible:</h5>
+        <h5 id="precio">Precio:</h5>
+        <h5 id="categoria">Categoria:</h5>
+        <h5 id="calificacion">calificacion:</h5>
+    </div>-->
     </div>
 
     <div id="acciones">
-        <h3>calificar</h3>
+        <h3 style="padding: 12px !important">Calificar</h3>
 
-        <div class="input-group mb-3">
-            <input type="text" class="form-control comentar" placeholder="Agregar un comentario" aria-label="Agregar un comentario" aria-describedby="basic-addon2">
+        <div style="padding:10px !important" class="input-group mb-3">
+            <input  type="text" class="form-control comentar" placeholder="Agregar un comentario" aria-label="Agregar un comentario" aria-describedby="basic-addon2">
             <div class="input-group-append">
                 <button class="btn btn-outline-secondary" type="button">Comentar</button>
             </div>
@@ -113,8 +125,7 @@
 
         <table class="table table-striped">
             <tr class="table-primary">
-                <th scope="col">comentarios</th>
-
+                <th scope="col">Comentarios</th>
 
             </tr>
             <tr id="comentario">

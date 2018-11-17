@@ -25,7 +25,7 @@ public class ProductosController : ApiController
     //GET api/<controller>/5
     public EN.Producto Get(int id, bool value)
     {
-        return c.GetProducto(id);
+        return c.GetProducto(id,value);
     }
 
     // POST api/<controller>
