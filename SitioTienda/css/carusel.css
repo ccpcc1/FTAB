@@ -34,3 +34,9 @@ card-img-top {
 #es {
     margin-top: 1px;
 }
+
+#consulta {
+    margin-top: 1px;
+    padding: 6px !important;
+    border-radius: 3px;
+}

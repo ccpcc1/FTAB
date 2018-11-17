@@ -16,10 +16,16 @@ public class ProductosController : ApiController
         return c.GetProductos();
     }
 
-    // GET api/<controller>/5
+    //GET api/<controller>/5
     public List<EN.Producto> Get(int id)
     {
-        return c.GetProductos(id); 
+        return c.GetProductos(id);
+    }
+
+    //GET api/<controller>/5
+    public EN.Producto Get(int id, bool value)
+    {
+        return c.GetProducto(id);
     }
 
     // POST api/<controller>

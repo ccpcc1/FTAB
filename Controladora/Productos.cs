@@ -7,12 +7,13 @@ using BR = Broker;
 using EN = Entidades;
 namespace Controladora
 {
-   public class Productos
+    public class Productos
     {
 
         private BR.BDTiendaDEntities db = new BR.BDTiendaDEntities();
 
-        public List<EN.Producto> GetProductos() {
+        public List<EN.Producto> GetProductos()
+        {
 
             List<EN.Producto> productos = new List<EN.Producto>();
 
@@ -41,7 +42,7 @@ namespace Controladora
 
             List<EN.Producto> productos = new List<EN.Producto>();
 
-            var query = db.Productos.Where(x=> x.idCategoria == id);
+            var query = db.Productos.Where(x => x.idCategoria == id);
 
             foreach (var item in query)
             {
@@ -59,6 +60,23 @@ namespace Controladora
             }
 
             return productos;
+        }
+
+        public EN.Producto GetProducto(int id)
+        {
+            EN.Producto p = new EN.Producto();
+            BR.Productos other = db.Productos.Where(x => x.idProducto == id).FirstOrDefault() ;
+
+            p.Categoria = other.Categoria.nombreCat;
+            p.idCategoria = other.idCategoria;
+            p.idProducto = other.idProducto;
+            p.idProvedor = other.Provedores.nombreProv;
+            p.nombreProducto = other.nombreProducto;
+            p.img = other.img;
+            p.Precio = other.Precio;
+            p.stock = other.stock;
+            
+            return p;
         }
     }
 }

@@ -5,12 +5,12 @@
     <title>Tienda</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href="css/carusel.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     <script src="js/jquery-3.3.1.js"></script>
     <script>
         $(document).ready(function () {
 
             console.log("document loaded");
-
 
             if ($("#consulta option:selected").attr("value") == 0) {
 
@@ -36,7 +36,7 @@
                             GetByCategory(1);
                             break;
                         case '4':
-                            GetyCategory(4);
+                            GetByCategory(4);
                             break;
                         case '5':
                             GetByCategory(5);
@@ -45,25 +45,24 @@
                             GetByCategory(9);
                             break;
                         default:
-                          
+                            GetAll();
+
                     }
                     //Termina switch
 
                 }
-                
+
 
             });
-
-            //Boton ver mas
-            $("#Vermas").click(function () {
-                alert("Handler for .click() called.");
-
-            });
-
-
 
         });
 
+        function Vermas(id) {
+
+            console.log("Oprimiste ver mas del producto " + id);
+            //Paso de parametros y llamda a la vista productos.html
+            window.location = "producto.html?idProducto="+id;
+        }
         //Obtener todos los prodcutos
         function GetAll() {
 
@@ -72,23 +71,23 @@
                 $.each(data, function (key, value) {
 
                     $("#tienda").append(" \
-                                        <div id='Producto' class='col-lg-3 col-md-4 col-sm-6 .col-12 card  espaciado  offset-md-1' style='width: 18rem;'> \
-                                        <img class= 'card-img-top rounded' src = "+ value.img + " >\
-                                        <div class='card-body'>\
-                                            <h5 class='card-title' align='center'>"+ value.nombreProducto.toUpperCase() + "</h5>\
-                                            <p class='card - text' align='center'>\
-                                                "+ value.Precio + " $" + "\
-                                            </p>\
-                                            <p id='stock' class='card - text' align='center'>\
-                                                 "+ "En Stock " + value.stock + " Unds" + "\
-                                            </p>\
-                                            <div class='text-center'>\
-                                                 <button id='Vermas'>Ver mas</button>\
-                                                <button style='color: whitesmoke!important' type='button' class='btn btn-primary bg-info borde ' id='AnnadirCarrito'>Agregar al carrito</button>\
-                                                <button style='color: whitesmoke!important' type='button' class='btn btn-primary bg-info borde ' id='AnnadirFavoritos'>Agregar Favoritos</button>\
-                                            </div>\
-                                        </div>\
-                                        </div >");
+                                                    <div id='Producto' class='col-lg-3 col-md-4 col-sm-6 .col-12 card  espaciado  offset-md-1' style='width: 18rem;'> \
+                                                    <img class= 'card-img-top rounded' src = "+ value.img + " >\
+                                                    <div class='card-body'>\
+                                                        <h5 class='card-title' align='center'>"+ value.nombreProducto.toUpperCase() + "</h5>\
+                                                        <p class='card - text' align='center'>\
+                                                            "+ value.Precio + " $" + "\
+                                                        </p>\
+                                                        <p id='stock' class='card - text' align='center'>\
+                                                             "+ "En Stock " + value.stock + " Unds" + "\
+                                                        </p>\
+                                                        <div class='text-center'>\
+                                                            <button style='color: whitesmoke!important' type='button' class='btn btn-primary bg-info borde' id='Vermas' onclick='Vermas("+ value.idProducto + ")'>Ver mas</button>\
+                                                            <button style='color: whitesmoke!important' type='button' class='btn btn-primary bg-info borde' id='AnnadirCarsrito' onclick='AnnadirCarrito("+ value.idProducto + ")'>Agregar al carrito</button>\
+                                                            <button style='color: whitesmoke!important' type='button' class='btn btn-primary bg-info borde' id='AnnadirFavoritos' onclick='AnnadirFavoritos("+ value.idProducto + ")'>Agregar Favoritos</button>\
+                                                        </div>\
+                                                    </div>\
+                                                    </div >");
 
                 });
 
@@ -98,28 +97,28 @@
         //Obtener por categoria
         function GetByCategory(idCategoria) {
             console.log("Obtuve categoria");
-            $.getJSON('/api/Productos/' + idCategoria , function (data) {
-              
+            $.getJSON('/api/Productos/' + idCategoria, function (data) {
+
                 $.each(data, function (key, value) {
-                   
+
                     $("#tienda").append(" \
-                                        <div id='Producto' class='col-lg-3 col-md-4 col-sm-6 .col-12 card  espaciado  offset-md-1' style='width: 18rem;'> \
-                                        <img class= 'card-img-top rounded' src = "+ value.img + " >\
-                                        <div class='card-body'>\
-                                            <h5 class='card-title' align='center'>"+ value.nombreProducto.toUpperCase() + "</h5>\
-                                            <p class='card - text' align='center'>\
-                                                "+ value.Precio + " $" + "\
-                                            </p>\
-                                            <p id='stock' class='card - text' align='center'>\
-                                                 "+ "En Stock " + value.stock + " Unds" + "\
-                                            </p>\
-                                            <div class='text-center'>\
-                                                 <button id='Vermas'>Ver mas</button>\
-                                                <button style='color: whitesmoke!important' type='button' class='btn btn-primary bg-info borde ' id='AnnadirCarrito'>Agregar al carrito</button>\
-                                                <button style='color: whitesmoke!important' type='button' class='btn btn-primary bg-info borde ' id='AnnadirFavoritos'>Agregar Favoritos</button>\
-                                            </div>\
-                                        </div>\
-                                        </div >");
+                                                    <div id='Producto' class='col-lg-3 col-md-4 col-sm-6 .col-12 card  espaciado  offset-md-1' style='width: 18rem;'> \
+                                                    <img class= 'card-img-top rounded' src = "+ value.img + " >\
+                                                    <div class='card-body'>\
+                                                        <h5 class='card-title' align='center'>"+ value.nombreProducto.toUpperCase() + "</h5>\
+                                                        <p class='card - text' align='center'>\
+                                                            "+ value.Precio + " $" + "\
+                                                        </p>\
+                                                        <p id='stock' class='card - text' align='center'>\
+                                                             "+ "En Stock " + value.stock + " Unds" + "\
+                                                        </p>\
+                                                          <div class='text-center'>\
+                                                            <button style='color: whitesmoke!important' type='button' class='btn btn-primary bg-info borde' id='Vermas' onclick='Vermas("+ value.idProducto + ")'>Ver mas</button>\
+                                                            <button style='color: whitesmoke!important' type='button' class='btn btn-primary bg-info borde' id='AnnadirCarsrito' onclick='AnnadirCarrito("+ value.idProducto + ")'>Agregar al carrito</button>\
+                                                            <button style='color: whitesmoke!important' type='button' class='btn btn-primary bg-info borde' id='AnnadirFavoritos' onclick='AnnadirFavoritos("+ value.idProducto + ")'>Agregar Favoritos</button>\
+                                                        </div>\
+                                                    </div>\
+                                                    </div >");
 
                 });
 
@@ -167,8 +166,7 @@
             </nav>
         </div>
         <br />
-        <div class="buscar">
-            <input />
+        <div class="row buscar">
             <select id="consulta" name="consulta">
                 <option value="0">Filtrar por</option>
                 <option value="1">Camisas</option>
@@ -176,6 +174,8 @@
                 <option value="5">Accesorios</option>
                 <option value="9">Jeans</option>
             </select>
+
+            <div style="padding-top: 5px !important" class="col-sm-4 well-sm"><i style=" padding-right:5px !important;" class="fas fa-shopping-cart"></i>0 Articulos</div>
         </div>
 
         <br />
