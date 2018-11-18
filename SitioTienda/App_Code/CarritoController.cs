@@ -14,7 +14,8 @@ public class CarritoController : ApiController
     // GET api/<controller>
     public List<EN.Producto> Get()
     {
-        List<int> productos = new List<int>();
+        List<int> productos = EN.GlobalData.getCar();
+    
         List<EN.Producto> producto = new List<EN.Producto>();
 
         foreach (int item in productos)
