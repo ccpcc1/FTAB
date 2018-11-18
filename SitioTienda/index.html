@@ -7,11 +7,16 @@
     <link href="css/carusel.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     <script src="js/jquery-3.3.1.js"></script>
+    <script src="js/minicart.js"></script>
     <script>
+
+        var count = 0;
+
         $(document).ready(function () {
 
             console.log("document loaded");
 
+            //Filtros
             if ($("#consulta option:selected").attr("value") == 0) {
 
                 GetAll();
@@ -57,10 +62,22 @@
 
         });
 
+        //Carrito
+
+        //Boton carrito,  Eventos para agregar productos al carrito
+        function annadirCarrito(id) {
+
+            count = count + 1;
+
+            $('#numElementos').text(count + " Elementos");
+
+        };
+
+
         function Vermas(id) {
             console.log("Oprimiste ver mas del producto " + id);
             //Paso de parametros y llamda a la vista productos.html
-            window.location = "producto.html?idProducto="+id;
+            window.location = "producto.html?idProducto=" + id;
         }
         //Obtener todos los prodcutos
         function GetAll() {
@@ -70,23 +87,23 @@
                 $.each(data, function (key, value) {
 
                     $("#tienda").append(" \
-                                                    <div id='Producto' class='col-lg-3 col-md-4 col-sm-6 .col-12 card  espaciado  offset-md-1' style='width: 18rem;'> \
-                                                    <img class= 'card-img-top rounded' src = "+ value.img + " >\
-                                                    <div class='card-body'>\
-                                                        <h5 class='card-title' align='center'>"+ value.nombreProducto.toUpperCase() + "</h5>\
-                                                        <p class='card - text' align='center'>\
-                                                            "+ value.Precio + " $" + "\
-                                                        </p>\
-                                                        <p id='stock' class='card - text' align='center'>\
-                                                             "+ "En Stock " + value.stock + " Unds" + "\
-                                                        </p>\
-                                                        <div class='text-center'>\
-                                                            <button style='color: whitesmoke!important' type='button' class='btn btn-primary bg-info borde' id='Vermas' onclick='Vermas("+ value.idProducto + ")'>Ver mas</button>\
-                                                            <button style='color: whitesmoke!important' type='button' class='btn btn-primary bg-info borde' id='AnnadirCarsrito' onclick='AnnadirCarrito("+ value.idProducto + ")'>Agregar al carrito</button>\
-                                                            <button style='color: whitesmoke!important' type='button' class='btn btn-primary bg-info borde' id='AnnadirFavoritos' onclick='AnnadirFavoritos("+ value.idProducto + ")'>Agregar Favoritos</button>\
-                                                        </div>\
-                                                    </div>\
-                                                    </div >");
+                                                                    <div id='Producto' class='col-lg-3 col-md-4 col-sm-6 .col-12 card  espaciado  offset-md-1' style='width: 18rem;'> \
+                                                                    <img class= 'card-img-top rounded' src = "+ value.img + " >\
+                                                                    <div class='card-body'>\
+                                                                        <h5 class='card-title' align='center'>"+ value.nombreProducto.toUpperCase() + "</h5>\
+                                                                        <p class='card - text' align='center'>\
+                                                                            "+ value.Precio + " $" + "\
+                                                                        </p>\
+                                                                        <p id='stock' class='card - text' align='center'>\
+                                                                             "+ "En Stock " + value.stock + " Unds" + "\
+                                                                        </p>\
+                                                                        <div class='text-center'>\
+                                                                            <button style='color: whitesmoke!important' type='button' class='btn btn-primary bg-info borde' id='Vermas' onclick='Vermas("+ value.idProducto + ")'>Ver mas</button>\
+                                                                            <button titulo=' "+ value.nombreProducto + " precio=' " + value.img + " style='color: whitesmoke!important' type='button' class='btn btn-primary bg-info borde producto' id='annadirCarrito' onclick='annadirCarrito(" + value.idProducto + ")'>Agregar al carrito</button>\
+                                                                            <button style='color: whitesmoke!important' ' type='button' class='btn btn-primary bg-info borde' id='AnnadirFavoritos' onclick='AnnadirFavoritos("+ value.idProducto + ")'>Agregar Favoritos</button>\
+                                                                        </div>\
+                                                                    </div>\
+                                                                    </div >");
 
                 });
 
@@ -101,23 +118,23 @@
                 $.each(data, function (key, value) {
 
                     $("#tienda").append(" \
-                                                    <div id='Producto' class='col-lg-3 col-md-4 col-sm-6 .col-12 card  espaciado  offset-md-1' style='width: 18rem;'> \
-                                                    <img class= 'card-img-top rounded' src = "+ value.img + " >\
-                                                    <div class='card-body'>\
-                                                        <h5 class='card-title' align='center'>"+ value.nombreProducto.toUpperCase() + "</h5>\
-                                                        <p class='card - text' align='center'>\
-                                                            "+ value.Precio + " $" + "\
-                                                        </p>\
-                                                        <p id='stock' class='card - text' align='center'>\
-                                                             "+ "En Stock " + value.stock + " Unds" + "\
-                                                        </p>\
-                                                          <div class='text-center'>\
-                                                            <button style='color: whitesmoke!important' type='button' class='btn btn-primary bg-info borde' id='Vermas' onclick='Vermas("+ value.idProducto + ")'>Ver mas</button>\
-                                                            <button style='color: whitesmoke!important' type='button' class='btn btn-primary bg-info borde' id='AnnadirCarsrito' onclick='AnnadirCarrito("+ value.idProducto + ")'>Agregar al carrito</button>\
-                                                            <button style='color: whitesmoke!important' type='button' class='btn btn-primary bg-info borde' id='AnnadirFavoritos' onclick='AnnadirFavoritos("+ value.idProducto + ")'>Agregar Favoritos</button>\
-                                                        </div>\
-                                                    </div>\
-                                                    </div >");
+                                                                    <div id='Producto' class='col-lg-3 col-md-4 col-sm-6 .col-12 card  espaciado  offset-md-1' style='width: 18rem;'> \
+                                                                    <img class= 'card-img-top rounded' src = "+ value.img + " >\
+                                                                    <div class='card-body'>\
+                                                                        <h5 class='card-title' align='center'>"+ value.nombreProducto.toUpperCase() + "</h5>\
+                                                                        <p class='card - text' align='center'>\
+                                                                            "+ value.Precio + " $" + "\
+                                                                        </p>\
+                                                                        <p id='stock' class='card - text' align='center'>\
+                                                                             "+ "En Stock " + value.stock + " Unds" + "\
+                                                                        </p>\
+                                                                          <div class='text-center'>\
+                                                                           <button style='color: whitesmoke!important' type='button' class='btn btn-primary bg-info borde' id='Vermas' onclick='Vermas("+ value.idProducto + ")'>Ver mas</button>\
+                                                                            <button titulo=' "+ value.nombreProducto + " precio=' " + value.img + " style='color: whitesmoke!important' type='button' class='btn btn-primary bg-info borde producto' id='annadirCarrito' onclick='annadirCarrito(" + value.idProducto + ")'>Agregar al carrito</button>\
+                                                                            <button style='color: whitesmoke!important' ' type='button' class='btn btn-primary bg-info borde' id='AnnadirFavoritos' onclick='AnnadirFavoritos("+ value.idProducto + ")'>Agregar Favoritos</button>\
+                                                                        </div>\
+                                                                    </div>\
+                                                                    </div >");
 
                 });
 
@@ -130,8 +147,6 @@
             $("#tienda").empty();
 
         };
-
-
 
     </script>
 
@@ -173,8 +188,13 @@
                 <option value="5">Accesorios</option>
                 <option value="9">Jeans</option>
             </select>
+            
+            <div  style="padding-top: 5px !important" class="col-sm-4 well-sm">
+                <div id="numElementos">
+                </div>
+                <i style=" padding-right:5px !important;" class="fas fa-shopping-cart"></i>
+            </div>
 
-            <div style="padding-top: 5px !important" class="col-sm-4 well-sm"><i style=" padding-right:5px !important;" class="fas fa-shopping-cart"></i>0 Articulos</div>
         </div>
 
         <br />
