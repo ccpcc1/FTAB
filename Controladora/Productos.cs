@@ -78,5 +78,21 @@ namespace Controladora
             
             return p;
         }
+        public EN.Producto GetProducto(string nombreProducto)
+        {
+            EN.Producto p = new EN.Producto();
+            BR.Productos other = db.Productos.Where(x => x.nombreProducto == nombreProducto).FirstOrDefault();
+
+            p.Categoria = other.Categoria.nombreCat;
+            p.idCategoria = other.idCategoria;
+            p.idProducto = other.idProducto;
+            p.idProvedor = other.Provedores.nombreProv;
+            p.nombreProducto = other.nombreProducto;
+            p.img = other.img;
+            p.Precio = other.Precio;
+            p.stock = other.stock;
+
+            return p;
+        }
     }
 }

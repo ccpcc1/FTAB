@@ -13,6 +13,7 @@
 
             console.log("document loaded");
             GetCarrito();
+            SetCantidad(1); 
             
         });
 
@@ -26,9 +27,12 @@
                 $.each(data, function (key, value) {
 
                     console.log(value);
-                    $("#" + bandera).append("<p class='card - text' align='center'>");
 
+                    $("#" + bandera).text("ya dio");
+                        
+                    bandera++;
                 });
+
 
             
 
@@ -58,9 +62,8 @@
                                                                         <h5 class='card-title' align='center'>"+ value.nombreProducto.toUpperCase() + "</h5>\
                                                                         <p class='card - text' align='center'>\
                                                                             "+ value.Precio + " $" + "</p>\
-                                                                            <div id="+ cantidad +"></div>\
-                                                                        <p  class='card - text' align='center'>\
-                                                                        </p>\
+                                                                            <p id="+ cantidad + ">\
+                                                                            </p>\
                                                                         <div class='text-center'>\
                                                                             <button style='color: whitesmoke!important' type='button' class='btn btn-primary bg-info borde' id='Vermas' onclick='Vermas("+ value.idProducto + ")'>Ver mas</button>\
                                                                             <button titulo=' "+ value.nombreProducto + " precio=' " + value.img + " style='color: whitesmoke!important' type='button' class='btn btn-primary bg-info borde producto' id='annadirCarrito' onclick='annadirCarrito(" + value.idProducto + ")'>Agregar al carrito</button>\
@@ -74,7 +77,7 @@
 
 
             });
-            SetCantidad(1);
+            
         };
 
 
@@ -113,7 +116,7 @@
         
         <div class="row" id="tienda">
 
-
+            
 
 
         </div>

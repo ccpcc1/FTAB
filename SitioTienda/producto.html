@@ -23,18 +23,33 @@
             for (var i = 0; i < paramarr.length; i++) {
                 var tmparr = paramarr[i].split("=");
                 params[tmparr[0]] = tmparr[1];
-                console.log("" + params);
+                //console.log("" + params);
             }
 
             if (params['idProducto']) {
-                console.log('El valor del parámetro variable es: ' + params['idProducto']);
+                //console.log('El valor del parámetro variable es: ' + params['idProducto']);
             } else {
-                console.log('No se envió el parámetro variable');
+                //console.log('No se envió el parámetro variable');
             }
 
+            //Llamado a funciones
             GetProduct(params['idProducto'], true);
+            GetComments(params['idProducto']);
 
+            $("#Comentar").click(function () {
 
+                if ($("#txtComentario").value.length!=0) {
+
+                    Comentar(params['idProducto']);
+                    alert("Se envio su comentario, Muchas gracias!");
+                }
+                else {
+
+                    alert("Escriba un comentario");
+
+                }
+
+            });
         });
        
         //Obtener prodcuto por id
@@ -43,20 +58,85 @@
 
             $.getJSON('/api/Productos?id=' + id + '&value=' + value, function (data) {
 
-                //console.log(data.nombreProducto);
                 $("#producto").append(" \
                         <div class='text - center'>\
                         <img  class= 'img-fluid rounded offset-md-1' src = "+ data.img + " >\
-                        <h5 id='cantidad' class='text - center'>Cantidad disponible:"+ data.stock + " </h5>\
-                        <h5 id='precio' class='text - center'>Precio:"+ data.Precio +" $"+"</h5>\
-                        <h5 id='categoria' class='text - center'>Categoria:"+ data.Categoria.toUpperCase() + "</h5>\
-                        <h5 id='calificacion' class='text - center'>calificacion: falta</h5>\
+                        <h5 id='cantidad' class='text - center'>Cantidad disponible: "+ data.stock + " </h5>\
+                        <h5 id='precio' class='text - center'>Precio: "+ data.Precio +" $"+"</h5>\
+                        <h5 id='categoria' class='text - center'>Categoria: "+ data.Categoria.toUpperCase() + "</h5>\
+                        <h5 id='calificacion' class='text - center'>calificacion: No lo han calificado aun</h5>\
                     </div >\
                 ");
 
 
             });
         };
+
+        //Obtener todos los comentarios
+        function GetComments(idProducto) {
+
+            var item = "";
+            var numComentarios = 0;
+            
+
+            $('#tblList tbody').html('');
+            $.getJSON('/api/Objetos/' + idProducto, function (data) {
+
+                $('#calificacion').text("Puntuacion: "+data.puntuacion);
+                numComentarios = data.comentarios.length-1;
+                
+                $.each(data, function (key, value) {
+                    
+                                      
+                    if (numComentarios < 0) {
+
+                        return false;
+
+                    } else {
+
+                        //console.log("Comentario 1 " + data.comentarios[numComentarios--]);
+                        item = "<tr><td>" + data.comentarios[numComentarios--] + "</td></tr>";
+                        $('#tblList tbody').append(item);
+
+
+                    }
+                    
+                });
+
+
+            });
+        };
+
+        function Comentar(idProducto) {
+
+            var comentario = $("#txtComentario").value;
+
+            var coment = new Object();
+            coment.idProducto = idProducto;
+            coment.comentarios[0] = comentario;
+            JSON.stringify(coment);
+
+            var url = '/api/Objetos/';
+
+            //Metodo Ajax, para comentar el prodcuto en cuestion
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: coment,
+                contentType: "application/json;chartset=utf-8",
+                statusCode: {
+                    201: function () {
+
+                        alert('Customer with id was updated');
+                    },
+                    400: function () {
+                        alert('Error');
+                    }
+                }
+            });
+
+        }
+        
     </script>
 </head>
 <body>
@@ -105,32 +185,36 @@
 
     <div id="acciones">
         <h3 style="padding: 12px !important">Calificar</h3>
+       <!-- menu despegable para calificar-->
+        <div style="padding-left:10px!important" class="dropdown">
+            <select id="Calificacion" name="consulta">
+                <option value="0">1 malo, 5 Excelente</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </div>
 
         <div style="padding:10px !important" class="input-group mb-3">
-            <input  type="text" class="form-control comentar" placeholder="Agregar un comentario" aria-label="Agregar un comentario" aria-describedby="basic-addon2">
+            <input id="txtComentario" type="text" class="form-control comentar" placeholder="Agregar un comentario" aria-label="Agregar un comentario" aria-describedby="basic-addon2">
             <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button">Comentar</button>
+                <button id="Comentar" type="button">Enviar Comentario!</button>
             </div>
         </div>
 
     </div>
 
-
-
+   <!--Comentarios-->
     <div id="comentarios">
-
-
-        <table class="table table-striped">
-            <tr class="table-primary">
-                <th scope="col">Comentarios</th>
-
-            </tr>
-            <tr id="comentario">
-                <td>col1</td>
-
-            </tr>
-
-
+        <table id="tblList" class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Cometario</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
         </table>
     </div>
 

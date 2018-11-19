@@ -4,24 +4,39 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using NQ = noSQL;
 
 public class ObjetosController : ApiController
 {
     // GET api/<controller>
     public IEnumerable<string> Get()
     {
-        return new string[] { "value1", "value2" };
+        return new string[] { "value154", "value2" };
     }
 
     // GET api/<controller>/5
-    public string Get(int id)
+    public NQ.Objeto Get(int id)
     {
-        return "value";
+        NQ.ObjetoMg obj = new NQ.ObjetoMg();
+        return obj.Buscar(id);
     }
 
     // POST api/<controller>
-    public void Post([FromBody]string value)
+    //agregar comentario
+    public void Post(NQ.Objeto objec)
     {
+        NQ.ObjetoMg obj = new NQ.ObjetoMg();
+        obj.Modificar(objec.comentarios[0], obj.Buscar(objec.id_producto));
+        
+    }
+
+    //añadir calificacion
+    public void Post(int calificacion, int id)
+    {
+        NQ.ObjetoMg obj = new NQ.ObjetoMg();
+        obj.Modificar(calificacion, obj.Buscar(id));
+
+
     }
 
     // PUT api/<controller>/5

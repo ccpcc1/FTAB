@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using NQ = noSQL;
 
 public class FavoritosController : ApiController
 {
@@ -14,14 +15,18 @@ public class FavoritosController : ApiController
     }
 
     // GET api/<controller>/5
-    public string Get(int id)
+    //retorna el producto de la bases de mongo donde nombre es el nombre del usuario
+    public NQ.Productos Get(string nombre)
     {
-        return "value";
+        NQ.Lista obj = new NQ.Lista();
+        return obj.Buscar(nombre);
     }
 
     // POST api/<controller>
-    public void Post([FromBody]string value)
+    public void Post(string nombre)
     {
+        NQ.Lista obj = new NQ.Lista();
+        obj.Insertar(obj.Buscar(nombre));
     }
 
     // PUT api/<controller>/5
