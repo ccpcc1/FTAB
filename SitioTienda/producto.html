@@ -38,9 +38,10 @@
 
             $("#Comentar").click(function () {
 
-                if ($("#txtComentario").value.length!=0) {
+                if ($("#txtComentario").length!=0) {
 
-                    Comentar(params['idProducto']);
+                    //console.log(params['idProducto'] + "-" + $("#txtComentario").val());
+                    Comentar(params['idProducto'],  $("#txtComentario").val());
                     alert("Se envio su comentario, Muchas gracias!");
                 }
                 else {
@@ -107,14 +108,15 @@
             });
         };
 
-        function Comentar(idProducto) {
+        function Comentar(idProducto,comentario) {
 
-            var comentario = $("#txtComentario").value;
-
+            //Objeto comentario
             var coment = new Object();
             coment.idProducto = idProducto;
-            coment.comentarios[0] = comentario;
+            coment.comentario = comentario;
             JSON.stringify(coment);
+
+            console.log("El id es " + coment.idProducto + " con comentario " + coment.comentario);
 
             var url = '/api/Objetos/';
 
@@ -122,7 +124,7 @@
             $.ajax({
                 url: url,
                 type: 'POST',
-                data: coment,
+                data: coment ,
                 contentType: "application/json;chartset=utf-8",
                 statusCode: {
                     201: function () {

@@ -62,6 +62,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Comentar.cs" />
     <Compile Include="Lista.cs" />
     <Compile Include="ObjetoMg.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

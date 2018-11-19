@@ -16,7 +16,7 @@ namespace noSQL
         protected static IMongoClient client = new MongoClient("mongodb://ccpc:123456c@ds139791.mlab.com:39791/tienda");
         protected static IMongoDatabase database = client.GetDatabase("tienda");
 
-
+        
 
         public Objeto Buscar(int producto)
         {
@@ -81,6 +81,11 @@ namespace noSQL
         public int puntuacion { get; set; }
 
         public int cantper { get; set; }
+
+        public Objeto()
+        {
+
+        }
 
         public static explicit operator Objeto(BsonValue v)
         {

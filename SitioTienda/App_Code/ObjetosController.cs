@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Description;
 using NQ = noSQL;
 
 public class ObjetosController : ApiController
@@ -23,10 +24,15 @@ public class ObjetosController : ApiController
 
     // POST api/<controller>
     //agregar comentario
-    public void Post(NQ.Objeto objec)
+    [ResponseType(typeof(NQ.Comentar))]
+    public void Post(NQ.Comentar com)
     {
+        NQ.Comentar c = new NQ.Comentar();
+        c.idProducto = com.idProducto;
+        c.comentario = com.comentario;
+
         NQ.ObjetoMg obj = new NQ.ObjetoMg();
-        obj.Modificar(objec.comentarios[0], obj.Buscar(objec.id_producto));
+        obj.Modificar(c.comentario, obj.Buscar(c.idProducto));
         
     }
 
