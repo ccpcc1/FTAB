@@ -15,6 +15,8 @@ public class CarritoController : ApiController
     public List<EN.Producto> Get()
     {
         List<int> productos = EN.GlobalData.getCar();
+        List<int> cantidad = EN.GlobalData.getCantidad(); 
+
     
         List<EN.Producto> producto = new List<EN.Producto>();
 
@@ -28,14 +30,17 @@ public class CarritoController : ApiController
     }
 
     // GET api/<controller>/5
-    public string Get(int id)
+    public List<int> Get(int id)
     {
-        return "value";
+        List<int> cantidad = EN.GlobalData.getCantidad();
+
+        return cantidad;
     }
 
     // POST api/<controller>
     public void Post(int id)
     {
+        List<int> productos = EN.GlobalData.getCar();
         EN.GlobalData.annadirCarrito(id);
     }
 
