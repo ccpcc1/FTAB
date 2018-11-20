@@ -108,34 +108,26 @@
             });
         };
 
-        function Comentar(idProducto,comentario) {
+        function Comentar(id,comentario) {
 
-            //Objeto comentario
-            var coment = new Object();
-            coment.idProducto = idProducto;
-            coment.comentario = comentario;
-            JSON.stringify(coment);
+            var url = '/api/Objetos?id=' + id + '&comentario=' + comentario;
 
-            console.log("El id es " + coment.idProducto + " con comentario " + coment.comentario);
-
-            var url = '/api/Objetos/';
-
-            //Metodo Ajax, para comentar el prodcuto en cuestion
             $.ajax({
+                type: "POST",
+                dataType: 'json',
+                data: {
+                    'id': id,
+                    'comentario': comentario
+                },
                 url: url,
-                type: 'POST',
-                data: coment ,
-                contentType: "application/json;chartset=utf-8",
-                statusCode: {
-                    201: function () {
+                success: function (data) {
 
-                        alert('Customer with id was updated');
-                    },
-                    400: function () {
-                        alert('Error');
-                    }
+                    console.log(data);
+
                 }
             });
+
+
 
         }
         

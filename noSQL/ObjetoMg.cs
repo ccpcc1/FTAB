@@ -13,8 +13,8 @@ namespace noSQL
     public class ObjetoMg
     {
 
-        protected static IMongoClient client = new MongoClient("mongodb://ccpc:123456c@ds139791.mlab.com:39791/tienda");
-        protected static IMongoDatabase database = client.GetDatabase("tienda");
+        public static IMongoClient client = new MongoClient("mongodb://ccpc:123456c@ds139791.mlab.com:39791/tienda");
+        public static IMongoDatabase database = client.GetDatabase("tienda");
 
         
 
@@ -50,6 +50,7 @@ namespace noSQL
 
         public void Modificar(string comentario, Objeto product)
         {
+           // var algo = product.id_producto;
             var collection = database.GetCollection<BsonDocument>("Producto");
             var filter = Builders<BsonDocument>.Filter.Eq("id_producto", product.id_producto);
 

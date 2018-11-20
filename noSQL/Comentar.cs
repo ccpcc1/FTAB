@@ -8,7 +8,7 @@ namespace noSQL
 {
     public class Comentar
     {
-        public int idProducto { get; set; }
+        public int id { get; set; }
         public string comentario { get; set; }
     }
 }

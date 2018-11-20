@@ -9,10 +9,12 @@ using NQ = noSQL;
 
 public class ObjetosController : ApiController
 {
+
+    NQ.Comentar c = new NQ.Comentar();
     // GET api/<controller>
     public IEnumerable<string> Get()
     {
-        return new string[] { "value154", "value2" };
+        return new string[] { "value1", "value2" };
     }
 
     // GET api/<controller>/5
@@ -24,16 +26,12 @@ public class ObjetosController : ApiController
 
     // POST api/<controller>
     //agregar comentario
-    [ResponseType(typeof(NQ.Comentar))]
-    public void Post(NQ.Comentar com)
+    public void Post(int id, string comentario)
     {
-        NQ.Comentar c = new NQ.Comentar();
-        c.idProducto = com.idProducto;
-        c.comentario = com.comentario;
-
+        Console.WriteLine("esto es" + id + "  " + comentario);
         NQ.ObjetoMg obj = new NQ.ObjetoMg();
-        obj.Modificar(c.comentario, obj.Buscar(c.idProducto));
-        
+        obj.Modificar(comentario, obj.Buscar(id));
+
     }
 
     //añadir calificacion
