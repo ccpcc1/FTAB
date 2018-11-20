@@ -36,13 +36,16 @@
             GetProduct(params['idProducto'], true);
             GetComments(params['idProducto']);
 
+           
+            //Enviar comentario
             $("#Comentar").click(function () {
 
                 if ($("#txtComentario").length!=0) {
 
                     //console.log(params['idProducto'] + "-" + $("#txtComentario").val());
-                    Comentar(params['idProducto'],  $("#txtComentario").val());
-                    alert("Se envio su comentario, Muchas gracias!");
+                    Comentar(params['idProducto'], $("#txtComentario").val());
+                    GetComments(params['idProducto']);
+                    
                 }
                 else {
 
@@ -51,10 +54,30 @@
                 }
 
             });
+
+
+            var calificacion = 0;
+            //Obtener calificacion
+            $(document).on('change', '#Calificacion', function (event) {
+               calificacion = $("#Calificacion option:selected").attr("value");
+            });
+
+            //Enviar calificacion
+            $("#Calificar").click(function () {
+
+                if ($("#Calificacion option:selected").attr("value") == 0) {
+
+                    alert("Seleccione una calificacion");
+
+                } else {
+
+                    Calificar(params['idProducto'], calificacion);
+
+                }
+            });
         });
        
         //Obtener prodcuto por id
-        ///api/Productos ? id = 1 & value=true
         function GetProduct(id, value) {
 
             $.getJSON('/api/Productos?id=' + id + '&value=' + value, function (data) {
@@ -122,12 +145,33 @@
                 url: url,
                 success: function (data) {
 
-                    console.log(data);
+                    alert("Se envio su comentario, Muchas gracias!");
+                    $("#txtComentario").val() = "";
 
                 }
             });
 
+        }
 
+        function Calificar(id, cal) {
+
+            var url = '/api/Objetos?id=' + id + '&cal=' + cal;
+
+            $.ajax({
+                type: "POST",
+                dataType: 'json',
+                data: {
+                    'id': id,
+                    'cal': cal
+                },
+                url: url,
+                success: function (data) {
+
+                    alert("Se envio su calificacion, Muchas gracias!");
+                   
+
+                }
+            });
 
         }
         
@@ -181,6 +225,7 @@
         <h3 style="padding: 12px !important">Calificar</h3>
        <!-- menu despegable para calificar-->
         <div style="padding-left:10px!important" class="dropdown">
+            <button id="Calificar" type="button">Enviar Calificacion</button>
             <select id="Calificacion" name="consulta">
                 <option value="0">1 malo, 5 Excelente</option>
                 <option value="1">1</option>

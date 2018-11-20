@@ -35,10 +35,10 @@ public class ObjetosController : ApiController
     }
 
     //añadir calificacion
-    public void Post(int calificacion, int id)
+    public void Post(int id, int cal)
     {
         NQ.ObjetoMg obj = new NQ.ObjetoMg();
-        obj.Modificar(calificacion, obj.Buscar(id));
+        obj.Modificar(cal, obj.Buscar(id));
 
 
     }
