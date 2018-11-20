@@ -5,6 +5,61 @@
     <title>Lista Favoritos</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href="css/carusel.css" rel="stylesheet" />
+    <script src="js/jquery-3.3.1.js"></script>
+    <script>    
+
+
+        $(document).ready(function () {
+
+            console.log("document loaded");
+            GetAll();
+
+            //$('#btnBuscar').on('click', function () {
+
+            //    GetFacturaByid($('#txtid').val());
+
+            //});
+
+            //$('#btnLimpiar').on('click', function () {
+
+            //    ClearForm();
+
+            //});
+
+        });
+
+        //Obtener todas los favoritos
+        function GetAll() {
+
+            var item = "";
+
+            $('#tblList tbody').html('');
+            $.getJSON('/api/Favoritos', function (data) {
+
+                $.each(data, function (key, value) {
+
+                    item = "<tr><td>" + value +"</td></tr>";
+                    $('#tblList tbody').append(item);
+
+                });
+
+
+            });
+        };
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
 </head>
 <body>
     <div class="container">
@@ -36,59 +91,18 @@
         </div>
         <br />
 
-        <div class="row" id="tienda">
 
-
-
-            <div class="col-lg-3 col-md-4 col-sm-6 .col-12 card  espaciado  offset-md-1" style="width: 18rem;">
-                <img class="card-img-top rounded" src="...">
-                <div class="card-body">
-                    <h5 class="card-title">Nombre producto</h5>
-                    <p class='card - text'>
-                        $ 15.500
-                    </p>
-                    <div class="text-center">
-                        <button type="button" class="btn btn-primary borde " id="es">Ver mas</button>
-                        <button type="button" class="btn btn-primary borde" id="es">Agregar al carrito</button>
-                        <button type="button" class="btn btn-primary borde " id="es">Agregar Favoritos</button>
-
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-3 col-md-4 col-sm-6 .col-12 card  espaciado  offset-md-1" style="width: 18rem;">
-                <img class="card-img-top rounded" src="...">
-                <div class="card-body">
-                    <h5 class="card-title">Nombre producto</h5>
-                    <p class='card - text'>
-                        $ 15.500
-                    </p>
-                    <div class="text-center">
-                        <button type="button" class="btn btn-primary borde " id="es">Ver mas</button>
-                        <button type="button" class="btn btn-primary borde" id="es">Agregar al carrito</button>
-                        <button type="button" class="btn btn-primary borde " id="es">Agregar Favoritos</button>
-
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-3 col-md-4 col-sm-6 .col-12 card  espaciado  offset-md-1" style="width: 18rem;">
-                <img class="card-img-top rounded" src="...">
-                <div class="card-body">
-                    <h5 class="card-title">Nombre producto</h5>
-                    <p class='card - text'>
-                        $ 15.500
-                    </p>
-                    <div class="text-center">
-                        <button type="button" class="btn btn-primary borde " id="es">Ver mas</button>
-                        <button type="button" class="btn btn-primary borde" id="es">Agregar al carrito</button>
-                        <button type="button" class="btn btn-primary borde " id="es">Agregar Favoritos</button>
-
-                    </div>
-                </div>
-            </div>
-
+        <div id="favoritos">
+            <table id="tblList" class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Productos</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
         </div>
+
 
     </div>
 
@@ -101,5 +115,4 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </body>
-
 </html>
