@@ -10,7 +10,7 @@ namespace Entidades
     {
 
         public int idFactura { get; set; }
-        public int idProducto { get; set; }
+        public string nombres { get; set; }
         public int precioUnitario { get; set; }
         public int cantidad { get; set; }
 

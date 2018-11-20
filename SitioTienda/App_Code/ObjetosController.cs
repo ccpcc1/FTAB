@@ -28,7 +28,7 @@ public class ObjetosController : ApiController
     //agregar comentario
     public void Post(int id, string comentario)
     {
-        Console.WriteLine("esto es" + id + "  " + comentario);
+        
         NQ.ObjetoMg obj = new NQ.ObjetoMg();
         obj.Modificar(comentario, obj.Buscar(id));
 

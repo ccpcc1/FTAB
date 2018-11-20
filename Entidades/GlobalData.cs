@@ -19,10 +19,12 @@ namespace Entidades
 
             if (car.Contains(id))
             {
+               
                 posProducto = car.IndexOf(id);
                 cantidadProdcuto = cantidad[posProducto]; 
-                cantidadProdcuto++;
+                cantidadProdcuto+=1;
                 cantidad.Insert(posProducto, cantidadProdcuto);
+                
             }
             else {
 

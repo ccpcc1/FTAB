@@ -13,10 +13,46 @@
 
             console.log("document loaded");
             GetCarrito();
-            SetCantidad(1); 
+            //SetCantidad(1); 
+
+            
+
             
         });
 
+        function comprar() {
+            var array = [1, 2, 3, 4]; //array que deseo enviar
+
+            //$.ajax({
+            //    type: "post",
+            //    url: ...,
+            //    data: { 'array': json.stringify(array) },//capturo array     
+            //    success: function (data) {
+
+            //    }
+            //});
+
+            var url = '/api/DetalleFactura?id=' + id + '&comentario=' + comentario;
+
+                $.ajax({
+                    type: "POST",
+                    dataType: 'json',
+                    data: {
+                        'id': id,
+                        'comentario': comentario
+                    },
+                    url: url,
+                    success: function (data) {
+
+                        alert("Se envio su comentario, Muchas gracias!");
+                        $("#txtComentario").val() = "";
+
+                    }
+                });
+
+          
+           
+            };
 
         function SetCantidad(id) {
 
@@ -33,14 +69,10 @@
                     bandera++;
                 });
 
-
-            
-
-
             });
 
-
         }
+
         //Funcion para mostar los elementos del carrito
         function GetCarrito() {
 
@@ -80,8 +112,6 @@
             
         };
 
-
-
     </script>
 </head>
 <body>
@@ -113,14 +143,22 @@
             </nav>
         </div>
         <br />
-        
+
         <div class="row" id="tienda">
 
-            
+        </div>
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-4 offset-1">
+                <button style="padding-left:10px !important" class="btn-primary" id="buy">Comprar todos</button>
+            </div>
 
-
+            <div class="col-4"></div>
         </div>
 
+        
+
+       
     </div>
     
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

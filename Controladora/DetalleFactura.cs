@@ -5,34 +5,42 @@ using System.Text;
 using System.Threading.Tasks;
 using BR = Broker;
 using EN = Entidades;
-
+using CT = Controladora;
 namespace Controladora
 {
-    public class Factura
+    public class DetalleFactura
     {
-
         private BR.BDTiendaDEntities db = new BR.BDTiendaDEntities();
+        private CT.Productos ctProducto = new CT.Productos();
 
-        public bool Crear(EN.Factura other)
-        {
+        public bool Crear(EN.DetalleFactura other) {
+
             bool resultado = false;
+            BR.DetalleFactura df = new BR.DetalleFactura();
 
             try
             {
+                //se crea el detalle factura en la base de datos
 
-                BR.Factura fact = new BR.Factura();
-                fact.idCliente = 789012;
-                fact.descuento = other.descuento;
-                fact.FechaFactura = other.FechaFactura;
-                fact.montoFinal = other.montoFinal;
-                db.Factura.Add(fact);
+                df.cantidad = other.cantidad;
+                df.idFactura = other.idFactura;
+                df.idProducto = ctProducto.getIdProducto(other.nombres);
+                df.precioUnitario = other.precioUnitario;
+                db.DetalleFactura.Add(df);
                 db.SaveChanges();
+               
+                //var consulta = from Productos in db.Productos
+                //               where (Productos.idProducto == detfac.idProducto)
+                //               select Productos;
+                
+
+                resultado = true;
+                //disminuir el stock
 
                 //Al annaidr una factura debemos annadir un detalleFactura y disminuir el Stock
                 //Consulta del id de la factura asociada al cliente
-                //var consulta = from fac in db.Factura
-                //               where (fac.Cliente == fact.Cliente && fac.FechaFactura == fact.FechaFactura)
-                //               select new { fac.idFactura };
+
+
 
                 //foreach (var item in consulta)
                 //{
@@ -53,9 +61,7 @@ namespace Controladora
                 //    db.SaveChanges();
                 //}
 
-
-                resultado = true;
-
+                
             }
             catch (Exception)
             {
@@ -63,25 +69,25 @@ namespace Controladora
                 throw;
             }
             return resultado;
+
         }
 
-        public List<EN.Factura> GetFacturas()
-        {
+        public List<EN.DetalleFactura> GetDetalleFacturas() {
 
 
-            List<BR.Factura> query = db.Factura.ToList();
-            List<EN.Factura> listDest = new List<EN.Factura>();
-           
+            List<BR.DetalleFactura> query = db.DetalleFactura.ToList();
+            List<EN.DetalleFactura> listDest = new List<EN.DetalleFactura>();
+
 
             //Recorremos la consulta 
             foreach (var item in query)
             {
-                EN.Factura other = new EN.Factura();
-                other.descuento = item.descuento;
-                other.FechaFactura = item.FechaFactura;
-                other.idCliente = item.Cliente.nombre;
+                EN.DetalleFactura other = new EN.DetalleFactura();
+
+                other.cantidad = item.cantidad;
                 other.idFactura = item.idFactura;
-                other.montoFinal = item.montoFinal;
+                other.nombres = item.Productos.nombreProducto;
+                other.precioUnitario = item.precioUnitario;
 
                 //Annadimos a la lista que retornamos
                 listDest.Add(other);
@@ -90,31 +96,12 @@ namespace Controladora
 
 
             return listDest;
-
-        }
-        public EN.Factura GetFactura(int id)
-        {
-
-            try
-            {
-                BR.Factura fac = db.Factura.Where(x => x.idFactura == id).FirstOrDefault();
-                AutoMapper.Mapper.CreateMap<BR.Factura, EN.Factura>();
-                EN.Factura fact = AutoMapper.Mapper.Map<EN.Factura>(fac);
-                return fact;
-
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-
         }
 
-        public int getIdFactura(DateTime fecha) {
 
-            return db.Factura.Where(x=>x.FechaFactura == fecha ).FirstOrDefault().idFactura;
-
-        }
     }
+
+
+
+   
 }

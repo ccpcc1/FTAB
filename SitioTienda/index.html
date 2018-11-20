@@ -80,17 +80,32 @@
                 type: 'POST',
                 data: id,
                 contentType: "application/json;chartset=utf-8",
-                statusCode: {
-                    201: function () {
-                       
-                        alert('Customer with id was updated');
-                    },
-                    400: function () {
-                        alert('Error');
-                    }
+                success: function (data) {
+
+                    alert("Se agrego este producto  " + id + " al carrito");
+
                 }
             });
                 
+
+        };
+
+        function anadir(nombreProducto) {
+
+            var url = '/api/Favoritos?product=' + nombreProducto;
+
+
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: nombreProducto,
+                contentType: "application/json;chartset=utf-8",
+                success: function (data) {
+
+                    alert("Se agrego este producto  " + nombreProducto + " a favoritos");
+
+                }
+            });
 
         };
 
@@ -99,7 +114,7 @@
             console.log("Oprimiste ver mas del producto " + id);
             //Paso de parametros y llamda a la vista productos.html
             window.location = "producto.html?idProducto=" + id;
-        }
+        };
 
         //Obtener todos los prodcutos
         function GetAll() {
@@ -122,7 +137,7 @@
                                                                         <div class='text-center'>\
                                                                             <button style='color: whitesmoke!important' type='button' class='btn btn-primary bg-info borde' id='Vermas' onclick='Vermas("+ value.idProducto + ")'>Ver mas</button>\
                                                                             <button titulo=' "+ value.nombreProducto + " precio=' " + value.img + " style='color: whitesmoke!important' type='button' class='btn btn-primary bg-info borde producto' id='annadirCarrito' onclick='annadirCarrito(" + value.idProducto + ")'>Agregar al carrito</button>\
-                                                                            <button style='color: whitesmoke!important' ' type='button' class='btn btn-primary bg-info borde' id='AnnadirFavoritos' onclick='AnnadirFavoritos("+ value.idProducto + ")'>Agregar Favoritos</button>\
+                                                                            <button style='color: whitesmoke!important' ' type='button' class='btn btn-primary bg-info borde' id='AnnadirFavoritos' onclick='anadir("+ value.idProducto + ")'>Agregar Favoritos</button>\
                                                                         </div>\
                                                                     </div>\
                                                                     </div >");
@@ -139,7 +154,7 @@
 
                 $.each(data, function (key, value) {
 
-                    $("#tienda").append(" \
+                     $("#tienda").append(" \
                                                                     <div id='Producto' class='col-lg-3 col-md-4 col-sm-6 .col-12 card  espaciado  offset-md-1' style='width: 18rem;'> \
                                                                     <img class= 'card-img-top rounded' src = "+ value.img + " >\
                                                                     <div class='card-body'>\
@@ -150,10 +165,10 @@
                                                                         <p id='stock' class='card - text' align='center'>\
                                                                              "+ "En Stock " + value.stock + " Unds" + "\
                                                                         </p>\
-                                                                          <div class='text-center'>\
-                                                                           <button style='color: whitesmoke!important' type='button' class='btn btn-primary bg-info borde' id='Vermas' onclick='Vermas("+ value.idProducto + ")'>Ver mas</button>\
+                                                                        <div class='text-center'>\
+                                                                            <button style='color: whitesmoke!important' type='button' class='btn btn-primary bg-info borde' id='Vermas' onclick='Vermas("+ value.idProducto + ")'>Ver mas</button>\
                                                                             <button titulo=' "+ value.nombreProducto + " precio=' " + value.img + " style='color: whitesmoke!important' type='button' class='btn btn-primary bg-info borde producto' id='annadirCarrito' onclick='annadirCarrito(" + value.idProducto + ")'>Agregar al carrito</button>\
-                                                                            <button style='color: whitesmoke!important' ' type='button' class='btn btn-primary bg-info borde' id='AnnadirFavoritos' onclick='AnnadirFavoritos("+ value.idProducto + ")'>Agregar Favoritos</button>\
+                                                                            <button style='color: whitesmoke!important' ' type='button' class='btn btn-primary bg-info borde' id='AnnadirFavoritos' onclick='anadir("+ value.nombreProducto + ")'>Agregar Favoritos</button>\
                                                                         </div>\
                                                                     </div>\
                                                                     </div >");

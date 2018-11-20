@@ -5,28 +5,40 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using NQ = noSQL;
+using CT = Controladora;
 
 public class FavoritosController : ApiController
 {
-    // GET api/<controller>
-    public IEnumerable<string> Get()
-    {
-        return new string[] { "value1", "value2" };
-    }
-
+    CT.Productos ctProdcutos = new CT.Productos();
     // GET api/<controller>/5
     //retorna el producto de la bases de mongo donde nombre es el nombre del usuario
-    public NQ.Productos Get(string nombre)
+    public List<string> Get()
     {
+        NQ.Productos prod = new NQ.Productos();
         NQ.Lista obj = new NQ.Lista();
-        return obj.Buscar(nombre);
+        prod=obj.Buscar();
+        if(prod!=null)
+        {
+            return prod.producto;
+        }
+        else
+        {
+            return new List<string>();
+        }
+        
     }
 
     // POST api/<controller>
-    public void Post(string nombre)
+    public void Post(string product)
     {
+
+        string name = ctProdcutos.getNameProducto(Convert.ToInt32(product));
+
+        NQ.Productos producto = new NQ.Productos();
+        producto.id_usuario = 135791;
+        
         NQ.Lista obj = new NQ.Lista();
-        obj.Insertar(obj.Buscar(nombre));
+        obj.Modificar(name, producto);
     }
 
     // PUT api/<controller>/5

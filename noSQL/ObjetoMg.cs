@@ -25,18 +25,19 @@ namespace noSQL
             var filter = Builders<BsonDocument>.Filter.Eq("id_producto", producto);
             var result = collection.Find(filter).FirstOrDefault();
             
-            if (result != null)
+            if (result==null)
             {
 
-                
-                obj = BsonSerializer.Deserialize<Objeto>(result); 
+                return null;
 
-                return obj;
-                
+
             }
             else
             {
-                return null;
+                obj = BsonSerializer.Deserialize<Objeto>(result);
+
+                return obj;
+                
             }
 
         }
@@ -53,9 +54,20 @@ namespace noSQL
            // var algo = product.id_producto;
             var collection = database.GetCollection<BsonDocument>("Producto");
             var filter = Builders<BsonDocument>.Filter.Eq("id_producto", product.id_producto);
+            if(filter!=null)
+            {
+                product.comentarios.Add(comentario);
+                collection.ReplaceOne(filter, product.ToBsonDocument());
+            }
+            else
+            {
+                Objeto nobj = new Objeto();
+                nobj._id = ObjectId.Parse(""+product.id_producto);
+                nobj.comentarios.Add(comentario);
+                Insertar(nobj);
 
-            product.comentarios.Add(comentario);
-            collection.ReplaceOne(filter, product.ToBsonDocument());
+            }
+            
         }
 
         public void Modificar(int puntuacion, Objeto product)
@@ -63,9 +75,21 @@ namespace noSQL
             var collection = database.GetCollection<BsonDocument>("Producto");
             var filter = Builders<BsonDocument>.Filter.Eq("id_producto", product.id_producto);
 
-            product.puntuacion = product.puntuacion + puntuacion;
-            product.cantper += 1;
-            collection.ReplaceOne(filter, product.ToBsonDocument());
+            if(filter!=null)
+            {
+                product.puntuacion = product.puntuacion + puntuacion;
+                product.cantper += 1;
+                collection.ReplaceOne(filter, product.ToBsonDocument());
+
+            }
+            else
+            {
+                Objeto nobj = new Objeto();
+                nobj._id = ObjectId.Parse("" + product.id_producto);
+                nobj.puntuacion = product.puntuacion;
+                nobj.cantper = 1;
+                Insertar(nobj);
+            }
 
         }
 

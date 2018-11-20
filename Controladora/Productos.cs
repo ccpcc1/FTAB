@@ -78,6 +78,16 @@ namespace Controladora
             
             return p;
         }
+
+        public void changeStock(int idp, int cant) {
+
+            BR.Productos other = db.Productos.Where(x => x.idProducto == idp).FirstOrDefault();
+
+            other.stock = cant;
+
+            db.SaveChanges();
+        }
+
         public EN.Producto GetProducto(string nombreProducto)
         {
             EN.Producto p = new EN.Producto();
@@ -93,6 +103,20 @@ namespace Controladora
             p.stock = other.stock;
 
             return p;
+        }
+
+        public int getIdProducto(string nombre) {
+
+            return db.Productos.Where(x=> x.nombreProducto == nombre).FirstOrDefault().idProducto;
+
+        }
+
+
+        public string getNameProducto(int id) { 
+       
+
+            return db.Productos.Where(x => x.idProducto == id).FirstOrDefault().nombreProducto;
+
         }
     }
 }
